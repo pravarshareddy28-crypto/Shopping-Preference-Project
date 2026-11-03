@@ -75,6 +75,7 @@ st.sidebar.caption("Machine Learning Project")
 if page == "Home":    
     
 st.image("shopping_banner.jpg", use_container_width=True)
+
     st.title("🛍️ Shopping Preference Prediction")
     st.subheader("Welcome to Our Project")
 
