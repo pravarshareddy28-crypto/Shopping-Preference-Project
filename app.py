@@ -13,7 +13,38 @@ st.set_page_config(
     page_icon="🛍️",
     layout="wide"
 )
+st.set_page_config(
+    page_title="Shopping Preference Predictor",
+    page_icon="🛍️",
+    layout="wide"
+)
 
+# PURPLE THEME
+st.markdown("""
+<style>
+.stApp {
+    background: linear-gradient(135deg, #F3E5F5, #EDE7F6);
+}
+
+[data-testid="stSidebar"] {
+    background-color: #6A1B9A;
+}
+
+[data-testid="stSidebar"] * {
+    color: white !important;
+}
+
+h1, h2, h3 {
+    color: #6A1B9A;
+}
+
+.stButton > button {
+    background-color: #8E24AA;
+    color: white;
+    border-radius: 10px;
+}
+</style>
+""", unsafe_allow_html=True)
 # Paste purple CSS code here
 
 # Load trained machine learning model
