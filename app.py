@@ -188,20 +188,7 @@ st.sidebar.caption(
 
 if page == "Home":
 
-    # Banner image (optional)
-    if os.path.exists("shopping_banner.jpg"):
-        st.image(
-            "shopping_banner.jpg",
-            use_container_width=True
-        )
-    else:
-        st.info(
-            "Add shopping_banner.jpg to your GitHub "
-            "repository to display the shopping banner."
-        )
-
     st.title("🛍️ Shopping Preference Prediction")
-
     st.subheader("Welcome to Our Project")
 
     st.write(
