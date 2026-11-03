@@ -1,64 +1,174 @@
 import streamlit as st
 import pandas as pd
 import pickle
+import os
 
-# Website settings
-st.set_page_config(
-    page_title="Shopping Preference Predictor",
-    page_icon="🛍️",
-    layout="wide"
-)
-st.set_page_config(
-    page_title="Shopping Preference Predictor",
-    page_icon="🛍️",
-    layout="wide"
-)
+# --------------------------------
+# WEBSITE SETTINGS
+# --------------------------------
+
 st.set_page_config(
     page_title="Shopping Preference Predictor",
     page_icon="🛍️",
     layout="wide"
 )
 
-# PURPLE THEME
+# --------------------------------
+# LIGHT LAVENDER + PURPLE THEME
+# --------------------------------
+
 st.markdown("""
 <style>
+
+/* Main background */
 .stApp {
-    background: linear-gradient(135deg, #F3E5F5, #EDE7F6);
+    background: linear-gradient(
+        135deg,
+        #F7F2FC,
+        #EEE6F7
+    );
+    color: #222222;
 }
 
+/* Main content text */
+.stApp p,
+.stApp label,
+.stApp span,
+.stApp li,
+.stApp div {
+    color: #222222;
+}
+
+/* Main headings */
+h1, h2, h3, h4 {
+    color: #51217A !important;
+    font-weight: 700;
+}
+
+/* Sidebar */
 [data-testid="stSidebar"] {
-    background-color: #6A1B9A;
+    background-color: #E5D5F2;
 }
 
-[data-testid="stSidebar"] * {
+/* Sidebar text */
+[data-testid="stSidebar"] p,
+[data-testid="stSidebar"] span,
+[data-testid="stSidebar"] label,
+[data-testid="stSidebar"] div {
+    color: #241331 !important;
+}
+
+/* Sidebar heading */
+[data-testid="stSidebar"] h1,
+[data-testid="stSidebar"] h2,
+[data-testid="stSidebar"] h3 {
+    color: #51217A !important;
+}
+
+/* Buttons */
+.stButton > button,
+.stFormSubmitButton > button {
+    background-color: #6A1B9A !important;
     color: white !important;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-weight: 600;
 }
 
-h1, h2, h3 {
-    color: #6A1B9A;
+/* Button hover */
+.stButton > button:hover,
+.stFormSubmitButton > button:hover {
+    background-color: #4A126F !important;
+    color: white !important;
+    border: none;
 }
 
-.stButton > button {
-    background-color: #8E24AA;
-    color: white;
+/* Input boxes */
+.stTextInput input,
+.stNumberInput input {
+    background-color: white !important;
+    color: #222222 !important;
+    border-radius: 8px;
+}
+
+/* Dropdowns */
+[data-baseweb="select"] {
+    background-color: white;
+}
+
+/* Cards and containers */
+[data-testid="stMetric"] {
+    background-color: white;
+    padding: 18px;
+    border-radius: 12px;
+    border: 1px solid #D9C5EA;
+}
+
+/* Dataframes */
+[data-testid="stDataFrame"] {
+    background-color: white;
     border-radius: 10px;
 }
+
+/* Alerts */
+.stAlert {
+    border-radius: 10px;
+}
+
+/* Dividers */
+hr {
+    border-color: #C9A9E0;
+}
+
+/* Responsive layout */
+@media screen and (max-width: 768px) {
+    h1 {
+        font-size: 26px !important;
+    }
+
+    h2 {
+        font-size: 22px !important;
+    }
+
+    h3 {
+        font-size: 19px !important;
+    }
+}
+
 </style>
 """, unsafe_allow_html=True)
-# Paste purple CSS code here
 
-# Load trained machine learning model
-# Load trained machine learning model
-with open("best_model.pkl", "rb") as f:
-    model = pickle.load(f)
 
-# Load feature information
-with open("feature_metadata.pkl", "rb") as f:
-    metadata = pickle.load(f)
+# --------------------------------
+# LOAD MACHINE LEARNING MODEL
+# --------------------------------
 
-# Sidebar navigation
+try:
+    with open("best_model.pkl", "rb") as f:
+        model = pickle.load(f)
+
+    with open("feature_metadata.pkl", "rb") as f:
+        metadata = pickle.load(f)
+
+except FileNotFoundError as e:
+    st.error(
+        f"Required project file not found: {e.filename}. "
+        "Please check that best_model.pkl and "
+        "feature_metadata.pkl are uploaded to your GitHub repository."
+    )
+    st.stop()
+
+
+# --------------------------------
+# SIDEBAR NAVIGATION
+# --------------------------------
+
 st.sidebar.title("🛍️ Shopping Project")
-st.sidebar.write("Customer Shopping Preference System")
+
+st.sidebar.write(
+    "Customer Shopping Preference System"
+)
 
 page = st.sidebar.radio(
     "Navigation",
@@ -66,15 +176,32 @@ page = st.sidebar.radio(
 )
 
 st.sidebar.divider()
-st.sidebar.caption("Machine Learning Project")
 
-# --------------------------------
+st.sidebar.caption(
+    "Machine Learning Project"
+)
+
+
+# ================================================
 # HOME PAGE
-# --------------------------------
+# ================================================
+
 if page == "Home":
-    st.image("shopping_banner.jpg", use_container_width=True)
+
+    # Banner image (optional)
+    if os.path.exists("shopping_banner.jpg"):
+        st.image(
+            "shopping_banner.jpg",
+            use_container_width=True
+        )
+    else:
+        st.info(
+            "Add shopping_banner.jpg to your GitHub "
+            "repository to display the shopping banner."
+        )
 
     st.title("🛍️ Shopping Preference Prediction")
+
     st.subheader("Welcome to Our Project")
 
     st.write(
@@ -90,6 +217,7 @@ if page == "Home":
 
     st.divider()
 
+    # About
     st.header("About the Project")
 
     st.write(
@@ -99,6 +227,7 @@ if page == "Home":
         "shopping in physical stores, or both."
     )
 
+    # Problem Statement
     st.header("Problem Statement")
 
     st.write(
@@ -109,6 +238,7 @@ if page == "Home":
         "preferred shopping method."
     )
 
+    # Objectives
     st.header("Project Objectives")
 
     st.markdown("""
@@ -119,24 +249,32 @@ if page == "Home":
     - To support better business decisions.
     """)
 
+    # Shopping categories
     st.header("Shopping Preference Categories")
 
     col1, col2, col3 = st.columns(3)
 
     with col1:
         st.subheader("🛒 Online")
-        st.write("Shopping through websites and mobile apps.")
+        st.write(
+            "Shopping through websites and mobile apps."
+        )
 
     with col2:
         st.subheader("🏬 Store")
-        st.write("Shopping directly from physical stores.")
+        st.write(
+            "Shopping directly from physical stores."
+        )
 
     with col3:
         st.subheader("🔄 Hybrid")
-        st.write("Using both online and physical stores.")
+        st.write(
+            "Using both online and physical stores."
+        )
 
     st.divider()
 
+    # Machine Learning
     st.header("Machine Learning")
 
     st.write(
@@ -150,9 +288,10 @@ if page == "Home":
         "using the navigation menu."
     )
 
-# --------------------------------
+
+# ================================================
 # DASHBOARD PAGE
-# --------------------------------
+# ================================================
 
 elif page == "Dashboard":
 
@@ -165,35 +304,56 @@ elif page == "Dashboard":
 
     st.divider()
 
-    # Calculate actual project feature information
+    # Calculate actual feature information
     total_features = len(metadata)
 
     numeric_features = sum(
-        1 for info in metadata.values()
+        1
+        for info in metadata.values()
         if info["type"] == "numeric"
     )
 
-    categorical_features = total_features - numeric_features
+    categorical_features = (
+        total_features - numeric_features
+    )
 
+    # Dashboard metrics
     col1, col2, col3 = st.columns(3)
 
-    col1.metric("Total Input Features", total_features)
-    col2.metric("Numerical Features", numeric_features)
-    col3.metric("Categorical Features", categorical_features)
+    col1.metric(
+        "Total Input Features",
+        total_features
+    )
+
+    col2.metric(
+        "Numerical Features",
+        numeric_features
+    )
+
+    col3.metric(
+        "Categorical Features",
+        categorical_features
+    )
 
     st.divider()
 
+    # Feature analysis
     st.header("Feature Analysis")
 
     feature_df = pd.DataFrame({
-        "Feature Type": ["Numerical", "Categorical"],
+        "Feature Type": [
+            "Numerical",
+            "Categorical"
+        ],
         "Number of Features": [
             numeric_features,
             categorical_features
         ]
     })
 
-    st.subheader("Numerical vs Categorical Features")
+    st.subheader(
+        "Numerical vs Categorical Features"
+    )
 
     st.bar_chart(
         feature_df.set_index("Feature Type")
@@ -207,6 +367,7 @@ elif page == "Dashboard":
 
     st.divider()
 
+    # Model classes
     st.header("Shopping Preference Categories")
 
     if hasattr(model, "classes_"):
@@ -228,15 +389,24 @@ elif page == "Dashboard":
 
     st.divider()
 
+    # Project information
     st.header("Project Information")
 
-    st.write("*Project:* Shopping Preference Prediction")
+    st.write(
+        "*Project:* Shopping Preference Prediction"
+    )
 
-    st.write("*Technology:* Python and Streamlit")
+    st.write(
+        "*Technology:* Python and Streamlit"
+    )
 
-    st.write("*Machine Learning:* Trained prediction model")
+    st.write(
+        "*Machine Learning:* Trained prediction model"
+    )
 
-    st.write("*Purpose:* Customer shopping preference prediction")
+    st.write(
+        "*Purpose:* Customer shopping preference prediction"
+    )
 
     st.info(
         "Note: These dashboard statistics describe the "
@@ -245,13 +415,16 @@ elif page == "Dashboard":
         "original customer dataset is available."
     )
 
-# --------------------------------
+
+# ================================================
 # PREDICTION PAGE
-# --------------------------------
+# ================================================
 
 elif page == "Prediction":
 
-    st.title("🤖 Customer Shopping Preference Predictor")
+    st.title(
+        "🤖 Customer Shopping Preference Predictor"
+    )
 
     st.write(
         "Enter customer information to predict whether "
@@ -267,7 +440,9 @@ elif page == "Prediction":
 
         for col, info in metadata.items():
 
-            st.subheader(col.replace("_", " ").title())
+            st.subheader(
+                col.replace("_", " ").title()
+            )
 
             if info["type"] == "numeric":
 
@@ -308,35 +483,56 @@ elif page == "Prediction":
     # Prediction result
     if submitted:
 
-        input_data = pd.DataFrame([customer_data])
+        try:
 
-        prediction = model.predict(input_data)[0]
-
-        st.success(
-            f"Predicted Shopping Preference: {prediction}"
-        )
-
-        # Display prediction probabilities
-        if hasattr(model, "predict_proba"):
-
-            probabilities = model.predict_proba(input_data)[0]
-
-            probability_df = pd.DataFrame({
-                "Shopping Preference": model.classes_,
-                "Prediction Probability": probabilities
-            })
-
-            probability_df["Prediction Probability"] *= 100
-
-            st.subheader("Prediction Probability")
-
-            st.dataframe(
-                probability_df,
-                use_container_width=True
+            input_data = pd.DataFrame(
+                [customer_data]
             )
 
-            st.bar_chart(
-                probability_df.set_index("Shopping Preference")
+            prediction = model.predict(
+                input_data
+            )[0]
+
+            st.success(
+                f"Predicted Shopping Preference: {prediction}"
+            )
+
+            # Prediction probabilities
+            if hasattr(model, "predict_proba"):
+
+                probabilities = model.predict_proba(
+                    input_data
+                )[0]
+
+                probability_df = pd.DataFrame({
+                    "Shopping Preference": model.classes_,
+                    "Prediction Probability": probabilities
+                })
+
+                probability_df[
+                    "Prediction Probability"
+                ] *= 100
+
+                st.subheader(
+                    "Prediction Probability"
+                )
+
+                st.dataframe(
+                    probability_df,
+                    use_container_width=True,
+                    hide_index=True
+                )
+
+                st.bar_chart(
+                    probability_df.set_index(
+                        "Shopping Preference"
+                    )
+                )
+
+        except Exception as e:
+
+            st.error(
+                f"Unable to generate prediction: {e}"
             )
 
     st.divider()
