@@ -8,7 +8,15 @@ st.set_page_config(
     page_icon="🛍️",
     layout="wide"
 )
+st.set_page_config(
+    page_title="Shopping Preference Predictor",
+    page_icon="🛍️",
+    layout="wide"
+)
 
+# Paste purple CSS code here
+
+# Load trained machine learning model
 # Load trained machine learning model
 with open("best_model.pkl", "rb") as f:
     model = pickle.load(f)
